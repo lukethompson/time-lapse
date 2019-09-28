@@ -2,16 +2,16 @@ import cv2
 import os
 from os.path import isdir, isfile, join
 
-pathIn= './tmp/Camera1/'
-pathOut = 'video.mp4'
+input_path = './tmp/Camera1/'
+output_video = 'video.mp4'
 fps = 15
-frame_array = []
+frames = []
 
-directories = [directory for directory in os.listdir(pathIn) if isdir(join(pathIn, directory))]
+directories = [directory for directory in os.listdir(input_path) if isdir(join(input_path, directory))]
 directories.sort()
 
 for di in range(len(directories)):
-  path = pathIn + directories[di]
+  path = input_path + directories[di]
   files = [file for file in os.listdir(path) if isfile(join(path, file))]
   files.sort()
 
@@ -24,9 +24,9 @@ for di in range(len(directories)):
     if int(cv2.countNonZero(img_gray)) < 2070000:
      continue
 
-    frame_array.append(img)
+    frames.append(img)
 
-out = cv2.VideoWriter(pathOut,cv2.VideoWriter_fourcc(*'DIVX'), fps, (1920, 1080))
-for i in range(len(frame_array)):
-    out.write(frame_array[i])
+out = cv2.VideoWriter(output_video,cv2.VideoWriter_fourcc(*'H264'), fps, (1920, 1080))
+for i in range(len(frames)):
+    out.write(frames[i])
 out.release()
